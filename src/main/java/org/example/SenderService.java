@@ -30,6 +30,9 @@ public class SenderService {
                 chatId,
                 encodedText
         );
+
+        System.out.println(chatId);
+
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .GET()
