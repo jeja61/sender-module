@@ -20,6 +20,7 @@ public class SenderService {
 
     @Value("${telegram.chat.id}")
     private String chatId;
+    //test
 
     public void send(String text) throws Exception {
         String encodedText = URLEncoder.encode(text, StandardCharsets.UTF_8);
