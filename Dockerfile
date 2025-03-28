@@ -1,20 +1,15 @@
-# Базовый образ с OpenJDK 21
-FROM openjdk:21-jdk-slim
+# Используем официальный образ OpenJDK 21
+FROM eclipse-temurin:21-jdk
 
-# Рабочая директория
+# Устанавливаем рабочую директорию
 WORKDIR /app
 
-# 1. Копируем только pom.xml (для кэширования зависимостей)
-COPY pom.xml .
+# Копируем jar-файл в контейнер
+COPY target/sender-module-1.0-SNAPSHOT.jar app.jar
 
-# 2. Скачиваем все зависимости (кешируем этот слой)
-RUN mvn dependency:go-offline -B
+# Открываем порт
+EXPOSE 9090
 
-# 3. Копируем исходный код
-COPY src ./src
-
-# 4. Собираем приложение
-RUN mvn package -DskipTests
-
-# 5. Запускаем приложение
-ENTRYPOINT ["java", "-jar", "target/sender-module-0.0.1-SNAPSHOT.jar"]
+# Указываем переменные окружения для запуска (будут переданы при запуске)
+# Примечание: не используем ARG для переменных окружения, передаем их через docker run
+CMD ["java", "-jar", "app.jar"]
